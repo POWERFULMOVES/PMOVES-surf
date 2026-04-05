@@ -1,80 +1,39 @@
-# PMOVES.AI Integration Guide for Surf
+# PMOVES.AI Integration Dossier
 
-## Integration Complete
+_Last updated: 2026-04-04_
 
-The PMOVES.AI integration template has been applied to Surf.
+## Module
+- Name: PMOVES-surf
+- Path: PMOVES-surf
 
-## Next Steps
+## Purpose in PMOVES.AI
+- Web browsing agent for automated content retrieval and research.
 
-### 1. Customize Environment Variables
+## PMOVES Overlay Surface
+- pmoves-integrations/ overlay path (if used): _TBD_
+- Compose/profile wiring: _TBD_
+- Env/secret inputs: _TBD_
+- Auth/JWT requirements: _TBD_
 
-Edit the following files with your service-specific values:
+## Contracts and Topics
+- NATS subjects (if any): _TBD_
+- Supabase schema/tables touched (if any): _TBD_
+- MCP endpoints/skills (if any): _TBD_
 
-- `env.shared` - Base environment configuration
-- `env.tier-agent` - AGENT tier specific configuration
-- `chit/secrets_manifest_v2.yaml` - Add your service's required secrets
+## Boot Order and Health
+- Bring-up dependency order: _TBD_
+- Health endpoints: _TBD_
+- Smoke targets: _TBD_
 
-### 2. Update Docker Compose
+## Hardening Notes
+- Image pinning / provenance: _TBD_
+- Secrets source (*_FILE / vault / GH env): _TBD_
+- Network/security policy constraints: _TBD_
 
-Add the PMOVES.AI environment anchor to your `docker-compose.yml`:
+## Source Documentation
+- Upstream docs entrypoint: README.md
+- PMOVES docs index reference: pmoves/docs/SUBMODULE_DOCS_DOSSIER.md
 
-```yaml
-services:
-  surf:
-    <<: [*env-tier-agent, *pmoves-healthcheck]
-    # Your existing service configuration...
-```
-
-### 3. Integrate Health Check
-
-Add the health check endpoint to your service:
-
-```python
-from pmoves_health import add_custom_check, get_health_status
-
-@app.get("/healthz")
-async def health_check():
-    return await get_health_status()
-```
-
-### 4. Add Service Announcement
-
-Add NATS service announcement to your startup:
-
-```python
-from pmoves_announcer import announce_service
-
-@app.on_event("startup")
-async def startup():
-    await announce_service(
-        slug="surf",
-        name="Surf Computer Use Agent",
-        url=f"http://surf:3000",
-        port=3000,
-        tier="agent"
-    )
-```
-
-### 5. Test Integration
-
-```bash
-# Test health check
-curl http://localhost:3000/healthz
-
-# Verify environment variables loaded
-docker compose exec surf env | grep PMOVES
-```
-
-## Service Details
-
-- **Name:** Surf Computer Use Agent
-- **Slug:** surf
-- **Tier:** agent
-- **Port:** 3000 (web UI)
-- **Health Check:** http://localhost:3000/healthz
-- **NATS Enabled:** False
-- **GPU Enabled:** False
-
-## Support
-
-For questions or issues, see the PMOVES.AI documentation.
+## Owner / Audit
+- Owning lane: _TBD_
+- Last integration audit run: 2026-04-04
